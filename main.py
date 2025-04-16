@@ -2,7 +2,7 @@ import streamlit as st
 import google.generativeai as genai
 
 # ==== CONFIG ====
-genai.configure(api_key="AIzaSyDUvbyMHm5M5fkQXR5itUALhMH5XqQ4FRs")  # Replace with your actual key
+genai.configure(api_key="AIzaSyD2wwJeg6vIQUTH1TTqUrtQj9DlQaZrrFk")  # Replace with your actual key
 model = genai.GenerativeModel("gemini-1.5-pro")
 # ================
 
@@ -76,20 +76,25 @@ if st.session_state.name:
     st.markdown(f"Hi **{st.session_state.name}**, welcome to Apollo Hospital Assistant.")
     issue = st.text_input("🤒 What health issue or symptom are you facing?", placeholder="e.g., chest pain, fever, headache")
 
-    if issue:
+    if issue and "response" not in st.session_state:
         st.write("📋 Here's a brief about your issue and guidance:")
-        prompt = (
-            f"You are a helpful medical assistant at Apollo Hospital. "
-            f"User's symptom/problem: {issue}. In around 120 words, explain what this issue could be, "
-            f"which department might help, and if necessary, suggest booking an appointment. Keep it simple and calm.\n"
-            f"{hospital_context}"
-        )
-        response = model.generate_content(prompt).text
-        st.success(response)
+        try:
+            prompt = (
+                f"You are a helpful medical assistant at Apollo Hospital. "
+                f"User's symptom/problem: {issue}. In around 120 words, explain what this issue could be, "
+                f"which department might help, and if necessary, suggest booking an appointment. Keep it simple and calm.\n"
+                f"{hospital_context}"
+            )
+            st.session_state.response = model.generate_content(prompt).text
+        except Exception as e:
+            st.session_state.response = "⚠️ Sorry, there was an issue fetching medical advice. Please try again later."
+
+    if "response" in st.session_state:
+        st.success(st.session_state.response)
 
         if st.checkbox("✅ Would you like to book an appointment?"):
-            date = st.text_input("📅 When would you like the appointment?", placeholder="e.g., Tomorrow, 20th April, next Monday")
-            time = st.text_input("⏰ At what time?", placeholder="e.g., 10 AM, afternoon, evening, 5")
+            date = st.text_input("📅 When would you like the appointment?", placeholder="e.g., 20 April, Tomorrow, next Monday")
+            time = st.text_input("⏰ At what time?", placeholder="e.g., 10:00 AM, afternoon, evening, 5")
 
             specialty = st.selectbox("🩺 Select Department", [
                 "Cardiology", "Neurology", "Orthopedics", "Oncology", "Pediatrics", "Gynecology",
