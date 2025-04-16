@@ -100,3 +100,11 @@ if st.session_state.name:
                 "Cardiology", "Neurology", "Orthopedics", "Oncology", "Pediatrics", "Gynecology",
                 "Nephrology", "Gastroenterology", "Urology", "Dermatology",
                 "Psychiatry", "ENT", "General Medicine"
+            ])
+
+            if st.button("📌 Book Appointment"):
+                confirmation = book_appointment(st.session_state.name, date, time, specialty)
+                st.success(confirmation)
+
+    st.markdown("---")
+    st.markdown("🔁 Refresh the page to restart or change details.")
