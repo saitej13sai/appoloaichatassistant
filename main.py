@@ -2,7 +2,7 @@ import streamlit as st
 import google.generativeai as genai
 
 # ==== CONFIG ====
-genai.configure(api_key="AIzaSyD2wwJeg6vIQUTH1TTqUrtQj9DlQaZrrFk")  # Replace with your actual key
+genai.configure(api_key="AIzaSyD2wwJeg6vIQUTH1TTqUrtQj9DlQaZrrFk")  # 🔁 Replace with your actual Gemini API key
 model = genai.GenerativeModel("gemini-1.5-pro")
 # ================
 
@@ -94,18 +94,9 @@ if st.session_state.name:
 
         if st.checkbox("✅ Would you like to book an appointment?"):
             date = st.text_input("📅 When would you like the appointment?", placeholder="e.g., 20 April, Tomorrow, next Monday")
-            time = st.text_input("⏰ At what time?", placeholder="e.g., 10:00 AM, afternoon, evening, 5")
+            time = st.text_input("⏰ At what time?", placeholder="e.g., 10:00 AM, afternoon, evening, 5 PM")
 
             specialty = st.selectbox("🩺 Select Department", [
                 "Cardiology", "Neurology", "Orthopedics", "Oncology", "Pediatrics", "Gynecology",
                 "Nephrology", "Gastroenterology", "Urology", "Dermatology",
                 "Psychiatry", "ENT", "General Medicine"
-            ])
-
-            if st.button("📌 Book Appointment"):
-                confirmation = book_appointment(st.session_state.name, date, time, specialty)
-                st.success(confirmation)
-
-    st.markdown("---")
-    st.markdown("🔁 Refresh the page to restart or change details.")
-
