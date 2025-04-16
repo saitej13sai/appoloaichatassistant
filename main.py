@@ -2,7 +2,7 @@ import streamlit as st
 import google.generativeai as genai
 
 # ==== CONFIG ====
-genai.configure(api_key="AIzaSyD2wwJeg6vIQUTH1TTqUrtQj9DlQaZrrFk")  # Replace with your actual key
+genai.configure(api_key="AIzaSyDUvbyMHm5M5fkQXR5itUALhMH5XqQ4FRs")  # Replace with your actual key
 model = genai.GenerativeModel("gemini-1.5-pro")
 # ================
 
